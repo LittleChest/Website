@@ -4,7 +4,9 @@ import { ref, onMounted } from 'vue'
 import { argbFromRgb, themeFromSourceColor, applyTheme } from '@material/material-color-utilities'
 const avatarUrl = 'https://avatars.githubusercontent.com/u/81231195'
 const avatar = ref(null)
+const hash = ref(null)
 onMounted(() => {
+  hash.value = GIT_HASH
   document.documentElement.style.setProperty('--avatar-url', `url(${avatarUrl})`)
   avatar.value.onload = () => {
     const canvas = document.createElement('canvas')
@@ -44,6 +46,7 @@ fetch('_worker')
     </div>
     <p
       class="fixed bottom-3 left-6 text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
+      @click="$event.target.innerText = `星靈感應@${hash}`"
     >
       星靈感應 Project
     </p>

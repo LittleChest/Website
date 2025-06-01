@@ -25,6 +25,7 @@
     "@vue/eslint-config-prettier": "^10.2.0",
     "eslint": "^9.22.0",
     "eslint-plugin-vue": "~10.0.0",
+    "git-describe": "^4.1.1",
     "prettier": "3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "vite": "^6.2.4",
