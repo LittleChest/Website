@@ -25,14 +25,14 @@ fetch('_worker')
 
 <template>
   <div class="flex flex-col justify-around md:flex-row">
-    <header class="order-last px-16 pt-8 text-left md:order-first md:pt-24">
+    <header class="animate-fade-up order-last px-16 pt-8 text-left md:order-first md:pt-24">
       <h1 class="text-4xl/relaxed font-bold md:text-8xl/relaxed">Hi,</h1>
       <p class="text-2xl font-semibold md:text-5xl">
         來自「{{ meta.asorg || '未至之境' }}」的朋友。
       </p>
     </header>
     <div
-      class="order-first mx-16 mt-16 bg-(--md-sys-color-primary) mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat p-1 md:order-last md:mt-64"
+      class="hover:animate-infinite hover:animate-duration-[2500ms] order-first mx-16 mt-16 bg-(--md-sys-color-primary) mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat p-1 hover:animate-spin hover:[animation-delay:2s] md:order-last md:mt-64"
     >
       <img
         ref="avatar"
