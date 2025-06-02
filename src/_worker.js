@@ -1,6 +1,14 @@
 /* eslint-disable no-undef */
 export default {
   async fetch(request) {
+    if (new URL(request.url).pathname === '/avatar') {
+      const avatarResponse = await fetch('https://avatars.githubusercontent.com/u/81231195')
+      return new Response(avatarResponse.body, {
+        headers: {
+          'Cache-Control': 'public, max-age=5',
+        },
+      })
+    }
     const meta = {
       ip: request.headers.get('cf-connecting-ip'),
       // rayid: request.headers.get('cf-ray'),

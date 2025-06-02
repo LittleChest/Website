@@ -2,12 +2,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { argbFromRgb, themeFromSourceColor, applyTheme } from '@material/material-color-utilities'
-const avatarUrl = 'https://avatars.githubusercontent.com/u/81231195'
 const avatar = ref(null)
 const hash = ref(null)
 onMounted(() => {
   hash.value = GIT_HASH
-  document.documentElement.style.setProperty('--avatar-url', `url(${avatarUrl})`)
   avatar.value.onload = () => {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
@@ -38,9 +36,8 @@ fetch('_worker')
     >
       <img
         ref="avatar"
-        :src="avatarUrl"
+        :src="'/avatar'"
         alt="Avatar"
-        crossOrigin="Anonymous"
         class="mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat"
       />
     </div>
@@ -80,7 +77,7 @@ body {
       color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%),
       color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%)
     ),
-    var(--avatar-url);
+    url(/avatar);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
