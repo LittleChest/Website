@@ -34,7 +34,7 @@ fetch('_worker')
       </p>
     </header>
     <div
-      class="hover:animate-infinite hover:animate-duration-[2500ms] order-first mx-16 mt-16 bg-(--md-sys-color-primary) mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat p-1 hover:animate-spin hover:[animation-delay:2s] md:order-last md:mt-64"
+      class="hover:animate-infinite hover:animate-duration-[2000ms] order-first mx-16 mt-16 bg-(--md-sys-color-primary) mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat p-1 hover:animate-spin hover:[animation-delay:1.5s] md:order-last md:mt-64"
     >
       <img
         ref="avatar"
@@ -53,9 +53,11 @@ fetch('_worker')
     <footer
       class="fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
     >
-      <span>Colo: {{ meta.colo || 'Unknown' }}</span>
-      <span>ASN: {{ meta.asn || 'Unknown' }}</span>
-      <span>IP: {{ meta.ip || 'Unknown' }}</span>
+      <span>Colo: {{ meta.colo || '未知' }}</span>
+      <span>ASN: {{ meta.asn || '未知' }}</span>
+      <span @click="$event.target.innerText = `IP: ${meta.ip || '未知'}`"
+        >IP: {{ meta.pseudo || meta.ip || '未知' }}</span
+      >
     </footer>
   </div>
 </template>
