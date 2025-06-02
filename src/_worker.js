@@ -2,7 +2,7 @@
 export default {
   async fetch(request) {
     const meta = {
-      ip: request.headers.get('cf-connecting-ip'),
+      ip: request.headers.get('cf-pseudo-ipv4') || request.headers.get('cf-connecting-ip'),
       // rayid: request.headers.get('cf-ray'),
       asn: request.cf.asn,
       asorg: request.cf.asOrganization,
