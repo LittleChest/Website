@@ -1,7 +1,7 @@
 <!-- eslint-disable no-undef -->
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faTelegram } from '@fortawesome/free-brands-svg-icons'
+import { faTelegram, faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ref, onMounted } from 'vue'
 import { argbFromRgb, themeFromSourceColor, applyTheme } from '@material/material-color-utilities'
 const avatar = ref(null)
@@ -39,6 +39,12 @@ fetch('_worker')
           href="https://t.me/LittleChestW"
           rel="nofollow noreferrer"
           ><FontAwesomeIcon :icon="faTelegram"
+        /></a>
+        <a
+          class="rounded-full px-2 pt-1"
+          href="https://github.com/LittleChest"
+          rel="nofollow noreferrer"
+          ><FontAwesomeIcon :icon="faGithub"
         /></a>
       </div>
     </header>
