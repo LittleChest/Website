@@ -1,5 +1,7 @@
 <!-- eslint-disable no-undef -->
 <script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faTelegram } from '@fortawesome/free-brands-svg-icons'
 import { ref, onMounted } from 'vue'
 import { argbFromRgb, themeFromSourceColor, applyTheme } from '@material/material-color-utilities'
 const avatar = ref(null)
@@ -30,6 +32,15 @@ fetch('_worker')
       <p class="text-2xl font-semibold md:text-5xl">
         來自「{{ meta.asorg || '未至之境' }}」的朋友。
       </p>
+      <div class="w-3/5 pt-30 text-4xl font-medium md:w-2/5 md:text-6xl">
+        <p class="mb-3 h-3 bg-black md:mb-4 md:h-4" />
+        <a
+          class="rounded-full px-2 pt-1 transition-colors duration-500 hover:text-[#229ED9] focus:text-[#229ED9]"
+          href="https://t.me/LittleChestW"
+          rel="nofollow noreferrer"
+          ><FontAwesomeIcon :icon="faTelegram"
+        /></a>
+      </div>
     </header>
     <div
       class="hover:animate-infinite hover:animate-duration-[2000ms] order-first mx-16 mt-16 bg-(--md-sys-color-primary) mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat p-1 hover:animate-spin hover:[animation-delay:1.5s] md:order-last md:mt-64"
