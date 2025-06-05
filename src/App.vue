@@ -3,21 +3,17 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTelegram, faGithub } from '@fortawesome/free-brands-svg-icons'
 import { ref, onMounted } from 'vue'
-import { argbFromRgb, themeFromSourceColor, applyTheme } from '@material/material-color-utilities'
+import {
+  themeFromSourceColor,
+  sourceColorFromImage,
+  applyTheme,
+} from '@material/material-color-utilities'
 const avatar = ref(null)
 const hash = ref(null)
-onMounted(() => {
+onMounted(async () => {
   hash.value = GIT_HASH
-  avatar.value.onload = () => {
-    const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d', { willReadFrequently: true })
-    ctx.drawImage(avatar.value, 0, 0)
-    const { data } = ctx.getImageData(0, 0, 1, 1)
-    applyTheme(themeFromSourceColor(argbFromRgb(data[0], data[1], data[2])), {
-      target: document.documentElement,
-    })
-    canvas.remove()
-  }
+  applyTheme(themeFromSourceColor(await sourceColorFromImage(avatar.value))),
+    { target: document.documentElement }
 })
 const meta = ref({})
 fetch('_worker')
