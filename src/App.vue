@@ -23,9 +23,11 @@ fetch('_worker')
 
 <template>
   <div class="flex flex-col justify-around md:flex-row">
-    <header class="animate-fade-up order-last px-16 pt-8 text-left md:order-first md:pt-24">
+    <header
+      class="animate-fade-up order-last px-16 pt-8 text-left md:order-first md:max-w-1/2 md:pt-24"
+    >
       <h1 class="text-4xl/relaxed font-bold md:text-8xl/relaxed">Hi,</h1>
-      <p class="text-2xl font-semibold md:text-5xl">
+      <p class="text-2xl font-semibold md:text-5xl/tight">
         來自「{{ meta.asorg || '未至之境' }}」的朋友。
       </p>
       <div class="w-3/5 pt-30 text-4xl font-medium md:w-2/5 md:text-6xl">
