@@ -22,10 +22,8 @@ fetch('_worker')
 </script>
 
 <template>
-  <div class="flex flex-col justify-around md:flex-row">
-    <header
-      class="animate-fade-up order-last px-16 pt-8 text-left md:order-first md:max-w-1/2 md:pt-24"
-    >
+  <div class="flex flex-col-reverse justify-around md:h-screen md:flex-row">
+    <header class="animate-fade-up px-16 pt-8 text-left md:max-w-1/2 md:pt-24">
       <h1 class="text-4xl/relaxed font-bold md:text-8xl/relaxed">Hi,</h1>
       <p class="text-2xl font-semibold md:text-5xl/tight">
         來自「{{ meta.asorg || '未至之境' }}」的朋友。
@@ -47,21 +45,21 @@ fetch('_worker')
       </div>
     </header>
     <div
-      class="hover:animate-infinite hover:animate-duration-[2000ms] order-first mx-16 mt-16 bg-(--md-sys-color-primary) mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat p-1 hover:animate-spin hover:[animation-delay:1.5s] md:order-last md:mt-64"
+      class="hover:animate-infinite hover:animate-duration-[2000ms] mx-16 mt-16 self-center bg-(--md-sys-color-primary) mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat p-1 hover:animate-spin hover:[animation-delay:1.5s] min-[480px]:max-w-1/2"
     >
       <img
         ref="avatar"
         :src="'/avatar'"
         alt="Avatar"
-        class="mask-[url(/shape.png)] mask-cover mask-center mask-no-repeat"
+        class="h-1/1 w-1/1 mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat"
       />
     </div>
-    <p
+    <footer
       class="fixed bottom-3 left-6 text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
       @click="$event.target.innerText = `星靈感應@${hash}`"
     >
       星靈感應 Project
-    </p>
+    </footer>
     <footer
       class="fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
     >
