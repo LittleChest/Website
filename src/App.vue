@@ -10,17 +10,27 @@ import {
 } from '@material/material-color-utilities'
 
 const avatar = ref(null)
+const avatarUrl = ref(null)
 
 const user = ref({})
-fetch('https://api.littlew.top/user', {
-  credentials: 'include',
-})
-  .then((res) => res.json())
-  .then((data) => Object.assign(user.value, data))
 
 const hash = ref(null)
 onMounted(async () => {
   hash.value = GIT_HASH
+
+  const res = await fetch('https://api.littlew.top/user', {
+    credentials: 'include',
+  })
+  Object.assign(user.value, await res.json())
+
+  avatarUrl.value = `/avatar?user=${user.value.id || '81231195'}`
+
+  await new Promise((resolve) => {
+    if (avatar.value) {
+      avatar.value.onload = resolve
+      avatar.value.src = src
+    }
+  })
 
   applyTheme(themeFromSourceColor(await sourceColorFromImage(avatar.value))),
     { target: document.documentElement }
@@ -69,7 +79,7 @@ onMounted(async () => {
     >
       <img
         ref="avatar"
-        :src="'/avatar?user=' + (user.id ? user.id : '81231195')"
+        :src="avatarUrl || '/avatar?user=81231195'"
         alt="頭像"
         class="h-1/1 w-1/1 mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat"
       />
