@@ -8,17 +8,31 @@ import {
   sourceColorFromImage,
   applyTheme,
 } from '@material/material-color-utilities'
+
 const avatar = ref(null)
+
+const user = ref({})
+fetch('https://api.littlew.top/user', {
+  credentials: 'include',
+})
+  .then((res) => res.json())
+  .then((data) => Object.assign(user.value, data))
+
 const hash = ref(null)
 onMounted(async () => {
   hash.value = GIT_HASH
+
   applyTheme(themeFromSourceColor(await sourceColorFromImage(avatar.value))),
     { target: document.documentElement }
+
+  document.body.style.background = `
+    linear-gradient(
+      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%),
+      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%)
+    ),
+    url('${avatar.value.src}') center/cover no-repeat
+  `
 })
-const user = ref({})
-fetch('https://api.littlew.top/user')
-  .then((res) => res.json())
-  .then((data) => Object.assign(user.value, data))
 </script>
 
 <template>
@@ -26,7 +40,11 @@ fetch('https://api.littlew.top/user')
     <header class="motion-safe:animate-fade-up px-16 pt-8 text-left md:max-w-1/2 md:pt-24">
       <h1 class="text-4xl/relaxed font-bold md:text-8xl/relaxed">Hi,</h1>
       <p class="text-2xl font-semibold md:text-5xl/tight">
-        來自「{{ user.asorg || '未至之境' }}」的朋友。
+        {{
+          user.id
+            ? `${user.name || user.username}。`
+            : `來自「${user.asorg || '未至之境'}」的朋友。`
+        }}
       </p>
       <div class="w-3/5 pt-30 text-4xl font-medium md:w-2/5 md:text-6xl">
         <div class="aria-hidden mb-3 h-3 bg-black md:mb-4 md:h-4" />
@@ -51,7 +69,7 @@ fetch('https://api.littlew.top/user')
     >
       <img
         ref="avatar"
-        :src="'/avatar'"
+        :src="'/avatar?user=' + (user.id ? user.id : '81231195')"
         alt="頭像"
         class="h-1/1 w-1/1 mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat"
       />
@@ -65,6 +83,7 @@ fetch('https://api.littlew.top/user')
     <footer
       class="fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
     >
+      <span>{{ user.id ? `GitHub: ${user.id || '未知'}` : '' }}</span>
       <span>Colo: {{ user.colo || '未知' }}</span>
       <span>ASN: {{ user.asn || '未知' }}</span>
       <span @click="$event.target.innerText = `IP: ${user.ip || '未知'}`"
@@ -85,15 +104,6 @@ body {
     Google Sans,
     Noto Sans TC;
   margin: 0;
-  background:
-    linear-gradient(
-      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%),
-      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%)
-    ),
-    url(/avatar);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   backdrop-filter: blur(24px);
 }
 
