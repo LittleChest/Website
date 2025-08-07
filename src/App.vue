@@ -29,8 +29,8 @@ const applyColors = async () => {
 
   document.body.style.background = `
     linear-gradient(
-      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%),
-      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 75%)
+      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 50%),
+      color-mix(in srgb, var(--md-sys-color-primary-container), transparent 50%)
     ),
     url('${avatar.value.src}') center/cover no-repeat
   `
