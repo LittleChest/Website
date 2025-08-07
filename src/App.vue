@@ -59,18 +59,18 @@ watch(avatarUrl, async (newVal) => {
 <template>
   <div class="flex flex-col-reverse justify-around md:h-screen md:flex-row">
     <header class="motion-safe:animate-fade-up px-16 pt-8 text-left md:max-w-1/2 md:pt-24">
-      <h1 class="text-4xl/relaxed font-bold md:text-8xl/relaxed">Hi,</h1>
+      <h1 class="text-4xl/relaxed font-bold md:text-7xl/relaxed">Hi,</h1>
       <p class="text-2xl font-semibold md:text-5xl/tight">
         <span
           v-if="user.id"
-          class="relative inline-block overflow-hidden text-(--md-sys-color-primary-container) before:absolute before:inset-0 before:z-[-1] before:[animation:slideIn_1s_forwards] before:bg-(--md-sys-color-primary) before:[--slideIn:inset_0_auto_auto_0_calc(100%)]"
+          class="relative inline-block overflow-hidden text-(--md-sys-color-primary-container) before:absolute before:inset-0 before:z-[-1] before:[animation:slideIn_1s_forwards] before:bg-(--md-sys-color-primary) before:[--slideIn:inset_0_auto_auto_0_calc(100%)] md:text-6xl/tight"
         >
           {{ user.name || user.username }}
         </span>
         <span v-else> 來自「{{ user.asorg || '未至之境' }}」的朋友</span>
         <span>。</span>
       </p>
-      <div class="w-3/5 pt-30 text-4xl font-medium md:w-2/5 md:text-6xl">
+      <div class="w-3/5 pt-30 text-4xl font-medium md:text-6xl">
         <div class="aria-hidden mb-3 h-3 bg-black md:mb-4 md:h-4" />
         <a
           class="rounded-full px-2 pt-1 transition-colors duration-500 hover:text-[#229ED9] focus:text-[#229ED9]"
