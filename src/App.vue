@@ -99,15 +99,14 @@ watch(avatarUrl, async (newVal) => {
       />
     </div>
     <footer
-      class="fixed bottom-3 left-6 text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
-      @click="$event.target.innerText = `星靈感應@${hash}`"
+      class="fixed bottom-3 left-6 flex flex-col text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
     >
-      星靈感應 Project
+      <span>GitHub: {{ user.id || '未登入' }}</span>
+      <span @click="$event.target.innerText = `星靈感應@${hash}`">星靈感應 Project</span>
     </footer>
     <footer
       class="fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
     >
-      <span>{{ user.id ? `GitHub: ${user.id || '未知'}` : '' }}</span>
       <span>Colo: {{ user.colo || '未知' }}</span>
       <span>ASN: {{ user.asn || '未知' }}</span>
       <span @click="$event.target.innerText = `IP: ${user.ip || '未知'}`"
