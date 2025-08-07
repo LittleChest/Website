@@ -2,7 +2,7 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTelegram, faGithub } from '@fortawesome/free-brands-svg-icons'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import {
   themeFromSourceColor,
   sourceColorFromImage,
@@ -10,30 +10,22 @@ import {
 } from '@material/material-color-utilities'
 
 const avatar = ref(null)
-const avatarUrl = ref(null)
-
+const avatarUrl = ref('/avatar?user=81231195')
 const user = ref({})
-
 const hash = ref(null)
-onMounted(async () => {
-  hash.value = GIT_HASH
 
-  const res = await fetch('https://api.littlew.top/user', {
-    credentials: 'include',
-  })
-  Object.assign(user.value, await res.json())
-
-  avatarUrl.value = `/avatar?user=${user.value.id || '81231195'}`
-
+const applyColors = async () => {
   await new Promise((resolve) => {
-    if (avatar.value) {
+    if (avatar.value.complete) {
+      resolve()
+    } else {
       avatar.value.onload = resolve
-      avatar.value.src = src
     }
   })
 
-  applyTheme(themeFromSourceColor(await sourceColorFromImage(avatar.value))),
-    { target: document.documentElement }
+  applyTheme(themeFromSourceColor(await sourceColorFromImage(avatar.value)), {
+    target: document.documentElement,
+  })
 
   document.body.style.background = `
     linear-gradient(
@@ -42,6 +34,25 @@ onMounted(async () => {
     ),
     url('${avatar.value.src}') center/cover no-repeat
   `
+}
+
+onMounted(async () => {
+  hash.value = GIT_HASH
+
+  await applyColors()
+
+  const res = await fetch('https://api.littlew.top/user', {
+    credentials: 'include',
+  })
+  Object.assign(user.value, await res.json())
+
+  avatarUrl.value = `/avatar?user=${user.value.id || '81231195'}`
+})
+
+watch(avatarUrl, async (newVal) => {
+  if (newVal) {
+    await applyColors()
+  }
 })
 </script>
 
@@ -79,7 +90,7 @@ onMounted(async () => {
     >
       <img
         ref="avatar"
-        :src="avatarUrl || '/avatar?user=81231195'"
+        :src="avatarUrl"
         alt="頭像"
         class="h-1/1 w-1/1 mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat"
       />
