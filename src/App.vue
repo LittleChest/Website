@@ -101,7 +101,16 @@ watch(avatarUrl, async (newVal) => {
     <footer
       class="fixed bottom-3 left-6 flex flex-col text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
     >
-      <span>GitHub: {{ user.id || '未登入' }}</span>
+      <span v-if="user.id">GitHub: {{ user.id }}</span>
+      <a
+        v-else
+        href="https://api.littlew.top/auth?referer=true"
+        class="cursor-pointer no-underline hover:underline"
+        @click="$event.target.innerText = `GitHub: 登入中...`"
+        referrerpolicy="unsafe-url"
+      >
+        GitHub: 未登入
+      </a>
       <span @click="$event.target.innerText = `星靈感應@${hash}`">星靈感應 Project</span>
     </footer>
     <footer
