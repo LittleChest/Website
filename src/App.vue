@@ -180,8 +180,8 @@ function updateShadow() {
 <template>
   <div class="flex flex-col-reverse justify-around md:h-screen md:flex-row">
     <header class="motion-safe:animate-fade-up px-16 pt-8 text-left md:max-w-1/2 md:pt-24">
-      <h1 class="text-4xl/relaxed font-bold md:text-7xl/relaxed">Hi,</h1>
-      <p class="text-2xl font-semibold md:text-5xl/tight">
+      <h1 class="nature-shadow text-4xl/relaxed font-bold md:text-7xl/relaxed">Hi,</h1>
+      <p class="nature-shadow text-2xl font-semibold md:text-5xl/tight">
         <span
           v-if="user.id"
           class="relative inline-block overflow-hidden text-(--md-sys-color-primary-container) before:absolute before:inset-0 before:z-[-1] before:[animation:slideIn_1s_forwards] before:bg-(--md-sys-color-primary) before:[--slideIn:inset_0_auto_auto_0_calc(100%)] md:text-6xl/tight"
@@ -210,7 +210,7 @@ function updateShadow() {
       </div>
     </header>
     <div
-      class="motion-safe:hover:animate-infinite motion-safe:hover:animate-duration-[2000ms] mx-16 mt-16 self-center bg-(--md-sys-color-primary) mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat p-1 motion-safe:hover:animate-spin motion-safe:hover:[animation-delay:1.5s] min-[480px]:max-w-1/2"
+      class="nature-shadow motion-safe:hover:animate-infinite motion-safe:hover:animate-duration-[2000ms] mx-16 mt-16 self-center bg-(--md-sys-color-primary) mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat p-1 motion-safe:hover:animate-spin motion-safe:hover:[animation-delay:1.5s] min-[480px]:max-w-1/2"
     >
       <img
         ref="avatar"
