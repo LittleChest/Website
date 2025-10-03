@@ -116,6 +116,8 @@ watch(avatarUrl, async (newVal) => {
     <footer
       class="fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
     >
+      <span>Latitude: {{ user.latitude || '未知' }}</span>
+      <span>Longitude: {{ user.longitude || '未知' }}</span>
       <span>Colo: {{ user.colo || '未知' }}</span>
       <span>ASN: {{ user.asn || '未知' }}</span>
       <span @click="$event.target.innerText = `IP: ${user.ip || '未知'}`"
