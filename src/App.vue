@@ -47,13 +47,134 @@ onMounted(async () => {
   Object.assign(user.value, await res.json())
 
   avatarUrl.value = `/avatar?user=${user.value.id || '81231195'}`
+
+  updateShadow()
+  setInterval(() => {
+    updateShadow()
+  }, 60 * 1000)
 })
 
 watch(avatarUrl, async (newVal) => {
   if (newVal) {
     await applyColors()
+    updateShadow()
   }
 })
+
+// 角度弧度转换
+const d2r = (d) => (d * Math.PI) / 180
+const r2d = (r) => (r * 180) / Math.PI
+
+// 计算儒略日
+function toJulianDate(date) {
+  return date.getTime() / 86400000 + 2440587.5
+}
+
+// 计算方位角和高度角
+function getSunPosition(date, latDeg, lonDeg) {
+  if (latDeg == null || lonDeg == null) return null
+
+  const JD = toJulianDate(date)
+  const n = JD - 2451545.0
+
+  // 太阳的平均经度与平均近点角
+  const L = (280.46 + 0.9856474 * n) % 360
+  const g = (357.528 + 0.9856003 * n) % 360
+
+  // 太阳黄经
+  const lambda = L + 1.915 * Math.sin(d2r(g)) + 0.02 * Math.sin(d2r(2 * g))
+
+  // 黄道倾角
+  const epsilon = 23.439 - 0.0000004 * n
+
+  // 赤纬
+  const dec = r2d(Math.asin(Math.sin(d2r(epsilon)) * Math.sin(d2r(lambda))))
+
+  // 太阳时角
+  const sidereal = (280.46061837 + 360.98564736629 * (JD - 2451545.0)) % 360
+  const H =
+    (sidereal +
+      lonDeg -
+      r2d(Math.atan2(Math.cos(d2r(epsilon)) * Math.sin(d2r(lambda)), Math.cos(d2r(lambda))))) %
+    360
+
+  // 转弧度
+  const Hrad = d2r(((H + 540) % 360) - 180) // 归一到 [-180,180] 再转弧度
+  const latRad = d2r(latDeg)
+  const decRad = d2r(dec)
+
+  // 高度角
+  const elevation = r2d(
+    Math.asin(
+      Math.sin(latRad) * Math.sin(decRad) + Math.cos(latRad) * Math.cos(decRad) * Math.cos(Hrad),
+    ),
+  )
+
+  // 方位角
+  const azRad = Math.atan2(
+    -Math.sin(Hrad),
+    Math.tan(decRad) * Math.cos(latRad) - Math.sin(latRad) * Math.cos(Hrad),
+  )
+  let azimuth = (r2d(azRad) + 360) % 360 // 归一为 [0,360)
+
+  return {
+    elevation,
+    azimuth,
+  }
+}
+
+function updateShadow() {
+  const targets = Array.from(document.querySelectorAll('.nature-shadow'))
+  if (targets.length === 0) return
+
+  const lat = parseFloat(user.value.latitude)
+  const lon = parseFloat(user.value.longitude)
+  const pos = getSunPosition(new Date(), lat, lon)
+
+  // 无法计算时清理样式
+  if (!pos) {
+    targets.forEach((el) => {
+      el.style.filter = ''
+      el.style.transition = ''
+    })
+    return
+  }
+
+  const elevDeg = pos.elevation
+  const azDeg = pos.azimuth
+  const elevRad = d2r(elevDeg)
+  const azRad = d2r(azDeg)
+
+  targets.forEach((el) => {
+    // 获取元素高度
+    const rect = el.getBoundingClientRect()
+    const intrinsic = el.naturalHeight || el.clientHeight || rect.height
+    const objHeightPx = Math.max(48, rect.height || intrinsic || 128)
+
+    // 计算阴影长度
+    let rawShadowLenPx
+    if (elevDeg <= 0) {
+      rawShadowLenPx = objHeightPx * 6
+    } else {
+      rawShadowLenPx = objHeightPx / Math.tan(elevRad)
+    }
+    const shadowLenPx = Math.min(400, Math.max(4, rawShadowLenPx))
+
+    // 偏移（太阳方向的反向）
+    const offsetX = -shadowLenPx * Math.sin(azRad)
+    const offsetY = shadowLenPx * Math.cos(azRad)
+
+    // 模糊与不透明度
+    const blurPx = Math.min(80, Math.max(2, (1 - Math.sin(elevRad)) * 40))
+    const alpha = Math.min(0.8, Math.max(0.06, 0.15 + (1 - Math.sin(elevRad)) * 0.6))
+
+    const filterValue = `drop-shadow(${offsetX.toFixed(1)}px ${offsetY.toFixed(1)}px ${blurPx.toFixed(1)}px rgba(0,0,0,${alpha.toFixed(2)}))`
+    const transitionValue = 'filter 600ms ease'
+
+    el.style.filter = filterValue
+    el.style.transition = transitionValue
+  })
+}
 </script>
 
 <template>
@@ -95,11 +216,11 @@ watch(avatarUrl, async (newVal) => {
         ref="avatar"
         :src="avatarUrl"
         alt="頭像"
-        class="h-1/1 w-1/1 mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat"
+        class="nature-shadow h-1/1 w-1/1 mask-[url(/shape.svg)] mask-cover mask-center mask-no-repeat"
       />
     </div>
     <footer
-      class="fixed bottom-3 left-6 flex flex-col text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
+      class="nature-shadow fixed bottom-3 left-6 flex flex-col text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
     >
       <span v-if="user.id">GitHub: {{ user.id }}</span>
       <a
@@ -114,7 +235,7 @@ watch(avatarUrl, async (newVal) => {
       <span @click="$event.target.innerText = `星靈感應@${hash}`">星靈感應 Project</span>
     </footer>
     <footer
-      class="fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
+      class="nature-shadow fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
     >
       <span>Latitude: {{ user.latitude || '未知' }}</span>
       <span>Longitude: {{ user.longitude || '未知' }}</span>
