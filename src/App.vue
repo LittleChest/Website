@@ -142,8 +142,20 @@ function updateShadow() {
 
   const elevDeg = pos.elevation
   const azDeg = pos.azimuth
+
+  // 夜间阈值：太阳高度 <= -6° 视为“夜晚”，不应有投影
+  if (elevDeg <= -6) {
+    targets.forEach((el) => {
+      el.style.filter = ''
+      el.style.transition = ''
+    })
+    return
+  }
+
   const elevRad = d2r(elevDeg)
   const azRad = d2r(azDeg)
+
+  const isTwilight = elevDeg > -6 && elevDeg <= 0
 
   targets.forEach((el) => {
     // 获取元素高度
@@ -153,8 +165,8 @@ function updateShadow() {
 
     // 计算阴影长度
     let rawShadowLenPx
-    if (elevDeg <= 0) {
-      rawShadowLenPx = objHeightPx * 6
+    if (isTwilight) {
+      rawShadowLenPx = objHeightPx * 1.0 // 暮色：使用接近物体高度的弱影长度
     } else {
       rawShadowLenPx = objHeightPx / Math.tan(elevRad)
     }
@@ -165,8 +177,10 @@ function updateShadow() {
     const offsetY = shadowLenPx * Math.cos(azRad)
 
     // 模糊与不透明度
-    const blurPx = Math.min(80, Math.max(2, (1 - Math.sin(elevRad)) * 40))
-    const alpha = Math.min(0.8, Math.max(0.06, 0.15 + (1 - Math.sin(elevRad)) * 0.6))
+    const baseBlur = Math.min(80, Math.max(2, (1 - Math.sin(elevRad)) * 40))
+    const blurPx = isTwilight ? Math.min(80, baseBlur * 1.5) : baseBlur
+    const baseAlpha = Math.min(0.8, Math.max(0.06, 0.15 + (1 - Math.sin(elevRad)) * 0.6))
+    const alpha = isTwilight ? Math.max(0.02, baseAlpha * 0.35) : baseAlpha
 
     const filterValue = `drop-shadow(${offsetX.toFixed(1)}px ${offsetY.toFixed(1)}px ${blurPx.toFixed(1)}px rgba(0,0,0,${alpha.toFixed(2)}))`
     const transitionValue = 'filter 600ms ease'
