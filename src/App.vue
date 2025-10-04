@@ -193,7 +193,9 @@ function updateShadow() {
 
 <template>
   <div class="flex flex-col-reverse justify-around md:h-screen md:flex-row">
-    <header class="motion-safe:animate-fade-up px-16 pt-8 text-left md:max-w-1/2 md:pt-24">
+    <header
+      class="motion-safe:animate-fade-up px-16 pt-8 text-left md:max-w-1/2 md:min-w-1/3 md:pt-24"
+    >
       <h1 class="nature-shadow text-4xl/relaxed font-bold md:text-7xl/relaxed">Hi,</h1>
       <p class="nature-shadow text-2xl font-semibold md:text-5xl/tight">
         <span
