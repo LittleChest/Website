@@ -236,7 +236,18 @@ function updateShadow() {
     <footer
       class="nature-shadow fixed bottom-3 left-6 flex flex-col text-xs font-medium text-(--md-sys-color-primary) md:bottom-4 md:left-8 md:text-sm"
     >
-      <span v-if="user.id">GitHub: {{ user.id }}</span>
+      <template v-if="user.id">
+        <a
+          v-if="user.last_login"
+          href="https://api.littlew.top/auth?referer=true"
+          class="cursor-pointer no-underline hover:underline"
+          @click="$event.target.innerText = `GitHub: 登入中...`"
+          referrerpolicy="unsafe-url"
+        >
+          GitHub: {{ user.id }} [過期]
+        </a>
+        <span v-else>GitHub: {{ user.id }}</span>
+      </template>
       <a
         v-else
         href="https://api.littlew.top/auth?referer=true"
