@@ -204,14 +204,18 @@ function updateShadow() {
         >
           {{ user.name || user.username }}
         </span>
-        <span v-else-if="user.asn === 204539 && user.asorg === 'LittleChest - Mobius Internet'"
-          >來自<span
-            class="relative inline-block overflow-hidden text-violet-300 before:absolute before:inset-0 before:z-[-1] before:[animation:slideIn_1s_forwards] before:bg-violet-800 before:[--slideIn:inset_0_auto_auto_0_calc(100%)] md:text-6xl/tight"
-            >「Möbius Internet」</span
-          >的朋友</span
-        >
-        <span v-else>來自「{{ user.asorg || '未至之境' }}」的朋友</span>
-        <span>。</span>
+        <span
+          >來自
+          <span class="-mx-[0.4em]">
+            <span
+              v-if="user.asn === 204539 && user.asorg === 'LittleChest - Mobius Internet'"
+              class="relative inline-flex overflow-hidden text-violet-300 before:absolute before:inset-x-[0.4em] before:inset-y-0 before:z-[-1] before:[animation:slideIn_1s_forwards] before:bg-violet-800 before:[--slideIn:inset_0_auto_auto_0_calc(100%)]"
+              >「Mobius Internet」</span
+            >
+            <span v-else>「{{ user.asorg || '未至之境' }}」</span>
+          </span>
+          的朋友</span
+        >。
       </p>
       <div class="w-3/5 pt-30 text-4xl font-medium md:text-6xl">
         <div class="aria-hidden mb-3 h-3 bg-black md:mb-4 md:h-4" />
