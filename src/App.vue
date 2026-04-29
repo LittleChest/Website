@@ -276,10 +276,12 @@ function updateShadow() {
     >
       <span>Latitude: {{ user.latitude || '未知' }}</span>
       <span>Longitude: {{ user.longitude || '未知' }}</span>
-      <span>RTT: {{ user.rtt || '未知' }}</span>
+      <span>RTT: {{ user.rtt ? user.rtt + ' ms' : '未知' }}</span>
       <span
         >Delivery Rate:
-        {{ user.delivery_rate ? (user.delivery_rate / 1024 / 1024) * 8 + ' Mbps' : '未知' }}</span
+        {{
+          user.delivery_rate ? (((user.delivery_rate / 1024 / 1024) * 8) | 0) + ' Mbps' : '未知'
+        }}</span
       >
       <span>Protocol: {{ user.protocol || '未知' }}</span>
       <span>ASN: {{ user.asn || '未知' }}</span>
