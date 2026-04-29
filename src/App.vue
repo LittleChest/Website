@@ -204,7 +204,7 @@ function updateShadow() {
         >
           {{ user.name || user.username }}
         </span>
-        <span
+        <span v-else
           >來自
           <span class="-mx-[0.4em]">
             <span
