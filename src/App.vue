@@ -274,8 +274,6 @@ function updateShadow() {
     <footer
       class="nature-shadow fixed right-6 bottom-3 flex flex-col text-left text-xs font-medium text-(--md-sys-color-primary) md:right-8 md:bottom-4 md:text-sm"
     >
-      <span>Latitude: {{ user.latitude || '未知' }}</span>
-      <span>Longitude: {{ user.longitude || '未知' }}</span>
       <span>RTT: {{ user.rtt || '0' }} ms</span>
       <span
         >Delivery Rate:
