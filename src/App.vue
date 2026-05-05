@@ -282,6 +282,7 @@ function updateShadow() {
         }}</span
       >
       <span>Protocol: {{ user.protocol || '未知' }}</span>
+      <span>Colo: {{ user.colo || '未知' }}</span>
       <span>ASN: {{ user.asn || '未知' }}</span>
       <span @click="$event.target.innerText = `IP: ${user.ip || '未知'}`"
         >IP: {{ user.pseudo || user.ip || '未知' }}</span
