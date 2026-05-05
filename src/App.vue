@@ -192,7 +192,7 @@ function updateShadow() {
 </script>
 
 <template>
-  <div class="flex flex-col-reverse justify-around md:h-screen md:flex-row">
+  <div class="flex flex-col-reverse justify-around rounded-3xl md:h-screen md:flex-row">
     <header
       class="motion-safe:animate-fade-up px-16 pt-8 text-left md:max-w-1/2 md:min-w-1/3 md:pt-24"
     >
@@ -324,5 +324,23 @@ body {
   to {
     transform: translateX(0);
   }
+}
+
+.flex.flex-col-reverse.justify-around.rounded-3xl::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 4px solid var(--md-sys-color-primary);
+  border-radius: 1.5rem;
+  pointer-events: none;
+  box-shadow:
+    -40px -40px 0 -15px var(--md-sys-color-primary),
+    40px -40px 0 -15px var(--md-sys-color-primary),
+    40px 40px 0 -15px var(--md-sys-color-primary),
+    -40px 40px 0 -15px var(--md-sys-color-primary);
+  z-index: -10;
 }
 </style>
